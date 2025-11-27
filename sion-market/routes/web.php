@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\SellerController;
 use App\Http\Controllers\SellerProductController;
+use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\ShopController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
@@ -33,12 +34,11 @@ Route::get('/', function () {
 
 /*
 |--------------------------------------------------------------------------
-| Tienda pública (lista de todos los productos)
+| Tienda pública
 |--------------------------------------------------------------------------
 */
 
 Route::get('/shop', [ShopController::class, 'index'])->name('shop.index');
-
 Route::get('/shop/{id}', [ShopController::class, 'show'])->name('shop.show');
 
 
@@ -70,9 +70,8 @@ Route::get('/dashboard', function () {
 */
 
 Route::middleware(['auth', 'admin'])->group(function () {
-    Route::get('/admin/dashboard', function () {
-        return Inertia::render('Admin/Dashboard');
-    })->name('admin.dashboard');
+    Route::get('/admin/dashboard', [DashboardController::class, 'index'])
+        ->name('admin.dashboard');
 });
 
 
@@ -140,3 +139,4 @@ Route::middleware('auth')->group(function () {
 */
 
 require __DIR__.'/auth.php';
+
