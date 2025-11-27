@@ -1,21 +1,51 @@
 <?php
 
+use App\Http\Controllers\SellerController;
+use App\Http\Controllers\SellerProductController;
+use App\Http\Controllers\ShopController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
-// Página principal
+/*
+|--------------------------------------------------------------------------
+| Página principal
+|--------------------------------------------------------------------------
+*/
+
 Route::get('/', function () {
-    return Inertia::render('Welcome', [
+    $products = \App\Models\Product::where('status', 'active')
+        ->where('stock', '>', 0)
+        ->limit(8)
+        ->get();
+
+    return inertia('Welcome', [
+        'auth' => ['user' => auth()->user()],
+        'products' => $products,
         'canLogin' => Route::has('login'),
         'canRegister' => Route::has('register'),
         'laravelVersion' => Application::VERSION,
         'phpVersion' => PHP_VERSION,
     ]);
-});
+})->name('home');
 
-// Dashboard general: redirige según rol
+
+/*
+|--------------------------------------------------------------------------
+| Tienda pública (lista de todos los productos)
+|--------------------------------------------------------------------------
+*/
+
+Route::get('/shop', [ShopController::class, 'index'])->name('shop.index');
+
+
+/*
+|--------------------------------------------------------------------------
+| Dashboard según rol
+|--------------------------------------------------------------------------
+*/
+
 Route::get('/dashboard', function () {
     $user = auth()->user();
 
@@ -27,13 +57,16 @@ Route::get('/dashboard', function () {
         return redirect()->route('seller.dashboard');
     }
 
-    return redirect()->route('buyer.dashboard'); // buyer por defecto
+    return redirect()->route('buyer.dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 
-// =========================
-//      ADMIN DASHBOARD
-// =========================
+/*
+|--------------------------------------------------------------------------
+| Admin
+|--------------------------------------------------------------------------
+*/
+
 Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('/admin/dashboard', function () {
         return Inertia::render('Admin/Dashboard');
@@ -41,19 +74,43 @@ Route::middleware(['auth', 'admin'])->group(function () {
 });
 
 
-// =========================
-//      SELLER DASHBOARD
-// =========================
+/*
+|--------------------------------------------------------------------------
+| Seller
+|--------------------------------------------------------------------------
+*/
+
 Route::middleware(['auth', 'seller'])->group(function () {
-    Route::get('/seller/dashboard', function () {
-        return Inertia::render('Seller/Dashboard');
-    })->name('seller.dashboard');
+
+    Route::get('/seller/dashboard', [SellerController::class, 'dashboard'])
+        ->name('seller.dashboard');
+
+    Route::get('/seller/products', [SellerProductController::class, 'index'])
+        ->name('seller.products.index');
+
+    Route::get('/seller/products/create', [SellerProductController::class, 'create'])
+        ->name('seller.products.create');
+
+    Route::post('/seller/products', [SellerProductController::class, 'store'])
+        ->name('seller.products.store');
+
+    Route::get('/seller/products/{id}/edit', [SellerProductController::class, 'edit'])
+        ->name('seller.products.edit');
+
+    Route::put('/seller/products/{id}', [SellerProductController::class, 'update'])
+        ->name('seller.products.update');
+
+    Route::delete('/seller/products/{id}', [SellerProductController::class, 'destroy'])
+        ->name('seller.products.destroy');
 });
 
 
-// =========================
-//      BUYER DASHBOARD
-// =========================
+/*
+|--------------------------------------------------------------------------
+| Buyer
+|--------------------------------------------------------------------------
+*/
+
 Route::middleware(['auth', 'buyer'])->group(function () {
     Route::get('/buyer/dashboard', function () {
         return Inertia::render('Buyer/Dashboard');
@@ -61,12 +118,23 @@ Route::middleware(['auth', 'buyer'])->group(function () {
 });
 
 
-// Perfil de usuario
+/*
+|--------------------------------------------------------------------------
+| Perfil
+|--------------------------------------------------------------------------
+*/
+
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-// Rutas de autenticación (login/register/logout)
+
+/*
+|--------------------------------------------------------------------------
+| Auth
+|--------------------------------------------------------------------------
+*/
+
 require __DIR__.'/auth.php';

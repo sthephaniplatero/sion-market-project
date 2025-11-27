@@ -19,10 +19,10 @@ export default function Welcome({ auth }) {
                         {/* Links */}
                         <div className="flex items-center space-x-6">
                             <Link
-                                href="/products"
+                                href={route('shop.index')}
                                 className="text-gray-700 hover:text-[#1A237E] transition"
                             >
-                                Productos
+                                Tienda
                             </Link>
 
                             <Link
@@ -72,7 +72,7 @@ export default function Welcome({ auth }) {
                 <header
                     className="pt-32 pb-20"
                     style={{
-                        background: "linear-gradient(to right, #E8EAF6, white)" // azul muy suave
+                        background: "linear-gradient(to right, #E8EAF6, white)"
                     }}
                 >
                     <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
@@ -91,11 +91,11 @@ export default function Welcome({ auth }) {
 
                             <div className="mt-8 flex space-x-4">
                                 <Link
-                                    href="/products"
+                                    href="/shop"
                                     className="px-6 py-3 rounded-lg text-white transition"
                                     style={{ backgroundColor: "#1A237E" }}
                                 >
-                                    Ver productos
+                                    Ver tienda
                                 </Link>
 
                                 <Link
