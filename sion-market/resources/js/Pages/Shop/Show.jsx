@@ -1,48 +1,54 @@
-import { Link } from "@inertiajs/react";
+import { Head, Link } from "@inertiajs/react";
+import ShopLayout from "@/Layouts/ShopLayout";
 
-export default function ShopShow({ product }) {
-    const whatsappNumber = product.seller?.whatsapp_number;
-
-    const whatsappMessage = `Hola, estoy interesado en el producto ${product.name}`;
-    const whatsappLink = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(whatsappMessage)}`;
-
+export default function ShopShow({ product, auth }) {
     return (
-        <div className="max-w-5xl mx-auto px-6 py-20">
+        <ShopLayout auth={auth}>
+            <Head title={product.name} />
 
-            <Link href={route("shop.index")} className="text-[#1A237E] underline">
-                ← Volver
-            </Link>
+            <div className="max-w-4xl mx-auto px-6 py-20">
+                <Link
+                    href="/shop"
+                    className="text-[#1A237E] hover:underline mb-6 inline-block"
+                >
+                    ← Volver a la tienda
+                </Link>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-10 mt-6">
+                <div className="bg-white shadow rounded-xl p-6 flex flex-col md:flex-row gap-8">
+                    {/* Imagen */}
+                    <img
+                        src={product.image ? `/storage/${product.image}` : "/placeholder.jpg"}
+                        alt={product.name}
+                        className="w-full md:w-1/2 h-96 object-cover rounded-lg"
+                    />
 
-                {/* IMAGEN */}
-                <img
-                    src={product.image ? `/storage/${product.image}` : "/placeholder.jpg"}
-                    className="w-full rounded-xl shadow"
-                />
+                    {/* Información */}
+                    <div className="flex-1 flex flex-col">
+                        <h1 className="text-3xl font-bold text-[#1A237E]">{product.name}</h1>
+                        <p className="text-gray-600 text-xl mt-2">${product.price}</p>
+                        {product.description && (
+                            <p className="mt-4 text-gray-700">{product.description}</p>
+                        )}
 
-                {/* INFO */}
-                <div>
-                    <h1 className="text-4xl font-bold">{product.name}</h1>
-
-                    <p className="text-2xl text-gray-700 mt-3">
-                        Precio: <span className="text-[#1A237E]">${product.price}</span>
-                    </p>
-
-                    <p className="text-gray-600 mt-4">{product.description}</p>
-
-                    <p className="mt-6">
-                        <span className="font-semibold">Vendedor:</span> {product.seller?.name}
-                    </p>
-
-                    <button
-                        onClick={() => window.open(whatsappLink, "_blank")}
-                        className="mt-6 w-full bg-green-600 text-white py-3 rounded-lg text-lg"
-                    >
-                        Contactar por WhatsApp
-                    </button>
+                        {/* Información del vendedor */}
+                        {product.seller && (
+                            <div className="mt-6">
+                                <h2 className="font-semibold text-gray-800">Vendedor:</h2>
+                                <p className="text-gray-600">{product.seller.name}</p>
+                                {product.seller.phone && (
+                                    <a
+                                        href={`https://wa.me/${product.seller.phone}`}
+                                        target="_blank"
+                                        className="mt-2 inline-block text-green-600 hover:underline"
+                                    >
+                                        Contactar por WhatsApp
+                                    </a>
+                                )}
+                            </div>
+                        )}
+                    </div>
                 </div>
             </div>
-        </div>
+        </ShopLayout>
     );
 }

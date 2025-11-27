@@ -1,8 +1,9 @@
 import { Head, Link } from "@inertiajs/react";
+import ShopLayout from "@/Layouts/ShopLayout";
 
-export default function ShopIndex({ products }) {
+export default function ShopIndex({ products, auth }) {
     return (
-        <>
+        <ShopLayout auth={auth}>
             <Head title="Tienda" />
 
             <div className="max-w-7xl mx-auto px-6 py-20">
@@ -38,6 +39,6 @@ export default function ShopIndex({ products }) {
                     </p>
                 )}
             </div>
-        </>
+        </ShopLayout>
     );
 }
