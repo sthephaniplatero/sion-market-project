@@ -12,7 +12,7 @@ class AdminProductController extends Controller
     // LISTA TODOS LOS PRODUCTOS DEL MARKETPLACE
     public function index()
     {
-        $products = Product::with('seller') // si tienes relación seller()
+        $products = Product::with('seller')
             ->orderBy('created_at', 'desc')
             ->get();
 
@@ -21,7 +21,7 @@ class AdminProductController extends Controller
         ]);
     }
 
-    // VISTA PARA CREAR PRODUCTO (opcional para admin)
+    // VISTA PARA CREAR PRODUCTO
     public function create()
     {
         return Inertia::render('Admin/Products/Create');
@@ -31,7 +31,7 @@ class AdminProductController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'seller_id' => 'required|exists:users,id', // admin asigna vendedor
+            'seller_id' => 'required|exists:users,id',
             'name' => 'required',
             'price' => 'required|numeric',
             'description' => 'required',
@@ -59,7 +59,7 @@ class AdminProductController extends Controller
             ->with('success', 'Producto creado por el administrador');
     }
 
-    // EDITAR PRODUCTO (no importa el vendedor)
+    // EDITAR PRODUCTO
     public function edit($id)
     {
         $product = Product::with('seller')->findOrFail($id);
@@ -99,7 +99,18 @@ class AdminProductController extends Controller
             ->with('success', 'Producto actualizado');
     }
 
-    // ELIMINAR PRODUCTO (cualquier producto del marketplace)
+    // CAMBIAR ESTADO: ACTIVO / INACTIVO
+    public function toggleStatus($id)
+    {
+        $product = Product::findOrFail($id);
+
+        $product->status = $product->status === 'active' ? 'inactive' : 'active';
+        $product->save();
+
+        return back()->with('success', 'Estado actualizado');
+    }
+
+    // ELIMINAR PRODUCTO
     public function destroy($id)
     {
         $product = Product::findOrFail($id);

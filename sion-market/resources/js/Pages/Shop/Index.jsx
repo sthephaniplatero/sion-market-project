@@ -1,3 +1,4 @@
+import React from "react";
 import { Head, Link } from "@inertiajs/react";
 import ShopLayout from "@/Layouts/ShopLayout";
 
@@ -13,13 +14,16 @@ export default function ShopIndex({ products, auth }) {
 
                 {products && products.length > 0 ? (
                     <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-10">
-                        {products.map(product => (
-                            <div key={product.id} className="bg-white shadow rounded-xl p-4 flex flex-col">
+                        {products.map((product) => (
+                            <div
+                                key={product.id}
+                                className="bg-white shadow rounded-xl p-4 flex flex-col"
+                            >
                                 <img
-                                    src={product.image ? `/storage/${product.image}` : "/placeholder.jpg"}
-                                    alt={product.name}
-                                    className="w-full h-56 object-cover rounded-lg"
-                                />
+                                     src={product.image}
+                                     alt={product.name}
+                                     className="w-full h-56 object-cover rounded-lg"
+                                 />
 
                                 <h2 className="text-xl font-semibold mt-4">{product.name}</h2>
                                 <p className="text-gray-600 mt-2">${product.price}</p>

@@ -14,21 +14,21 @@ export default function ProductIndex({ products }) {
         <SellerLayout>
             <Head title="Gestionar productos" />
 
-            <div className="flex justify-between items-center mb-10">
-                <h1 className="text-4xl font-bold" style={{ color: "#1A237E" }}>
-                    Gestión de productos
-                </h1>
-
+            {/* Hero visual */}
+            <div className="relative bg-gradient-to-r from-blue-900 to-blue-700 text-white rounded-xl p-10 mb-10 shadow-lg">
+                <h1 className="text-5xl font-bold mb-3">Bienvenido a tu Dashboard de Productos</h1>
+                <p className="text-lg mb-5">
+                    Aquí puedes gestionar, editar y agregar nuevos productos de manera rápida y segura.
+                </p>
                 <Link
                     href="/seller/products/create"
-                    className="px-5 py-3 rounded-lg text-white"
-                    style={{ backgroundColor: "#1A237E" }}
+                    className="inline-block px-6 py-3 bg-white text-blue-900 font-semibold rounded-lg hover:bg-gray-100 transition"
                 >
-                    Agregar producto
+                    Agregar nuevo producto
                 </Link>
             </div>
 
-            {/* Tabla */}
+            {/* Tabla de productos */}
             <div className="overflow-x-auto bg-white shadow rounded-xl">
                 <table className="min-w-full text-left">
                     <thead className="bg-gray-100">
@@ -65,9 +65,7 @@ export default function ProductIndex({ products }) {
                                                     : "bg-red-600"
                                             }`}
                                         >
-                                            {product.status === "active"
-                                                ? "Activo"
-                                                : "Inactivo"}
+                                            {product.status === "active" ? "Activo" : "Inactivo"}
                                         </span>
                                     </td>
 
@@ -83,9 +81,7 @@ export default function ProductIndex({ products }) {
                                             onClick={() => toggleStatus(product.id)}
                                             className="text-yellow-600 hover:underline"
                                         >
-                                            {product.status === "active"
-                                                ? "Desactivar"
-                                                : "Activar"}
+                                            {product.status === "active" ? "Desactivar" : "Activar"}
                                         </button>
 
                                         <button
