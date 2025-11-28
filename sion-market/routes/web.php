@@ -2,7 +2,8 @@
 
 use App\Http\Controllers\SellerController;
 use App\Http\Controllers\SellerProductController;
-use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\AdminController;
+use App\Http\Controllers\AdminProductController;
 use App\Http\Controllers\ShopController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
@@ -70,9 +71,35 @@ Route::get('/dashboard', function () {
 */
 
 Route::middleware(['auth', 'admin'])->group(function () {
-    Route::get('/admin/dashboard', [DashboardController::class, 'index'])
+
+    // Dashboard del administrador
+    Route::get('/admin/dashboard', [AdminController::class, 'dashboard'])
         ->name('admin.dashboard');
+
+    // Productos del marketplace (vista global)
+    Route::get('/admin/products', [AdminProductController::class, 'index'])
+        ->name('admin.products.index');
+
+    // Crear producto (opcional)
+    Route::get('/admin/products/create', [AdminProductController::class, 'create'])
+        ->name('admin.products.create');
+
+    Route::post('/admin/products', [AdminProductController::class, 'store'])
+        ->name('admin.products.store');
+
+    // Editar producto
+    Route::get('/admin/products/{id}/edit', [AdminProductController::class, 'edit'])
+        ->name('admin.products.edit');
+
+    Route::put('/admin/products/{id}', [AdminProductController::class, 'update'])
+        ->name('admin.products.update');
+
+    // Eliminar cualquier producto
+    Route::delete('/admin/products/{id}', [AdminProductController::class, 'destroy'])
+        ->name('admin.products.destroy');
+
 });
+
 
 
 /*

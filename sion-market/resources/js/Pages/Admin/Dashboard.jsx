@@ -1,132 +1,72 @@
-import React, { useState } from "react";
+import React from "react";
 import { Head } from "@inertiajs/react";
 import AdminLayout from "@/Layouts/AdminLayout";
 
-export default function AdminDashboard({ stats, users, contacts, notifications }) {
-// Valores por defecto seguros
-const safeStats = stats || {};
-const { activeSellers = 0, totalClients = 0, pendingContacts = 0 } = safeStats;
+export default function AdminDashboard({ stats }) {
+    return (
+        <AdminLayout>
+            <Head title="Dashboard Administrador" />
 
-const safeUsers = users || { sellers: [], clients: [] };
-const safeContacts = contacts || [];
-const safeNotifications = notifications || [];
+            <h1 className="text-3xl font-bold mb-6" style={{ color: "#1A237E" }}>
+                Resumen del Marketplace
+            </h1>
 
-// Estado de búsqueda
-const [searchQuery, setSearchQuery] = useState("");
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+                <div className="bg-white shadow p-4 rounded">
+                    <h2 className="text-gray-500">Total de vendedores</h2>
+                    <p className="text-2xl font-bold">{stats.totalSellers}</p>
+                </div>
 
-// Filtrar vendedores según búsqueda
-const filteredSellers = (safeUsers.sellers || []).filter(
-    (seller) =>
-        (seller.name || "").toLowerCase().includes(searchQuery.toLowerCase()) ||
-        (seller.whatsapp || "").includes(searchQuery)
-);
+                <div className="bg-white shadow p-4 rounded">
+                    <h2 className="text-gray-500">Total de productos</h2>
+                    <p className="text-2xl font-bold">{stats.totalProducts}</p>
+                </div>
 
-return (
-    <AdminLayout notifications={safeNotifications}>
-        <Head title="Dashboard Admin" />
+                <div className="bg-white shadow p-4 rounded">
+                    <h2 className="text-gray-500">Productos activos</h2>
+                    <p className="text-2xl font-bold">{stats.activeProducts}</p>
+                </div>
 
-        {/* Título */}
-        <h1 className="text-3xl font-bold mb-6" style={{ color: "#1A237E" }}>
-            Resumen rápido
-        </h1>
+                <div className="bg-white shadow p-4 rounded">
+                    <h2 className="text-gray-500">Productos inactivos</h2>
+                    <p className="text-2xl font-bold">{stats.inactiveProducts}</p>
+                </div>
 
-        {/* Barra de búsqueda */}
-        <div className="mb-4">
-            <input
-                type="text"
-                placeholder="Buscar vendedor por nombre o WhatsApp..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className="border px-3 py-2 rounded w-full"
-            />
-        </div>
-
-        {/* Estadísticas rápidas */}
-        <div className="grid grid-cols-3 gap-6 mb-8">
-            <div className="p-4 bg-white shadow rounded">
-                <h2 className="font-semibold mb-2">Vendedores activos</h2>
-                <p className="text-2xl">{activeSellers}</p>
+                <div className="bg-white shadow p-4 rounded">
+                    <h2 className="text-gray-500">Productos con bajo stock</h2>
+                    <p className="text-2xl font-bold">{stats.lowStock}</p>
+                </div>
             </div>
-            <div className="p-4 bg-white shadow rounded">
-                <h2 className="font-semibold mb-2">Clientes registrados</h2>
-                <p className="text-2xl">{totalClients}</p>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="bg-white shadow p-4 rounded">
+                    <h2 className="text-gray-500">Últimos productos agregados</h2>
+                    <ul className="mt-2">
+                        {stats.latestProducts.length > 0 ? (
+                            stats.latestProducts.map((product) => (
+                                <li key={product.id}>
+                                    {product.name} - {product.seller.name}
+                                </li>
+                            ))
+                        ) : (
+                            <li>No hay productos</li>
+                        )}
+                    </ul>
+                </div>
+
+                <div className="bg-white shadow p-4 rounded">
+                    <h2 className="text-gray-500">Últimos vendedores registrados</h2>
+                    <ul className="mt-2">
+                        {stats.latestSellers.length > 0 ? (
+                            stats.latestSellers.map((seller) => (
+                                <li key={seller.id}>{seller.name}</li>
+                            ))
+                        ) : (
+                            <li>No hay vendedores</li>
+                        )}
+                    </ul>
+                </div>
             </div>
-            <div className="p-4 bg-white shadow rounded">
-                <h2 className="font-semibold mb-2">Consultas pendientes</h2>
-                <p className="text-2xl">{pendingContacts}</p>
-            </div>
-        </div>
-
-        {/* Tabla de vendedores */}
-        <section className="mb-8">
-            <h2 className="text-xl font-semibold mb-4">Usuarios - Vendedores</h2>
-            <table className="w-full table-auto bg-white shadow rounded">
-                <thead className="bg-gray-100">
-                    <tr>
-                        <th className="px-4 py-2 text-left">Nombre</th>
-                        <th className="px-4 py-2 text-left">WhatsApp</th>
-                        <th className="px-4 py-2 text-left">Estado</th>
-                        <th className="px-4 py-2 text-left">Productos activos</th>
-                        <th className="px-4 py-2 text-left">Acciones</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {filteredSellers.map((seller) => (
-                        <tr key={seller.id} className="border-t">
-                            <td className="px-4 py-2">{seller.name || "-"}</td>
-                            <td className="px-4 py-2">{seller.whatsapp || "-"}</td>
-                            <td className="px-4 py-2">{seller.status || "-"}</td>
-                            <td className="px-4 py-2">{seller.activeProducts || 0}</td>
-                            <td className="px-4 py-2">
-                                <button className="text-blue-600 mr-2">Ver</button>
-                                <button className="text-green-600 mr-2">Editar</button>
-                                <button className="text-red-600">Bloquear</button>
-                            </td>
-                        </tr>
-                    ))}
-                </tbody>
-            </table>
-        </section>
-
-        {/* Historial de Contactos */}
-        <section>
-            <h2 className="text-xl font-semibold mb-4">Historial de Contactos</h2>
-            <table className="w-full table-auto bg-white shadow rounded mb-4">
-                <thead className="bg-gray-100">
-                    <tr>
-                        <th className="px-4 py-2 text-left">Producto</th>
-                        <th className="px-4 py-2 text-left">Cliente</th>
-                        <th className="px-4 py-2 text-left">Vendedor</th>
-                        <th className="px-4 py-2 text-left">Estado</th>
-                        <th className="px-4 py-2 text-left">WhatsApp</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {safeContacts.map((contact) => (
-                        <tr key={contact.id} className="border-t">
-                            <td className="px-4 py-2">{contact.product || "-"}</td>
-                            <td className="px-4 py-2">{contact.client || "-"}</td>
-                            <td className="px-4 py-2">{contact.seller || "-"}</td>
-                            <td className="px-4 py-2">{contact.status || "-"}</td>
-                            <td className="px-4 py-2">
-                                {contact.whatsapp ? (
-                                    <a
-                                        href={`https://wa.me/${contact.whatsapp}`}
-                                        target="_blank"
-                                        className="text-green-600"
-                                    >
-                                        Chat
-                                    </a>
-                                ) : (
-                                    "-"
-                                )}
-                            </td>
-                        </tr>
-                    ))}
-                </tbody>
-            </table>
-        </section>
-    </AdminLayout>
-);
-
+        </AdminLayout>
+    );
 }
