@@ -18,7 +18,7 @@ return Application::configure(basePath: dirname(__DIR__))
             \Illuminate\Http\Middleware\AddLinkHeadersForPreloadedAssets::class,
         ]);
 
-        // 👉 Aquí registramos los middlewares por rol
+        // Middlewares por rol
         $middleware->alias([
             'admin'  => \App\Http\Middleware\AdminMiddleware::class,
             'seller' => \App\Http\Middleware\SellerMiddleware::class,
