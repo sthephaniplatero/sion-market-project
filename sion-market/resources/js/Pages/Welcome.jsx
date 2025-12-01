@@ -6,10 +6,10 @@ export default function Welcome({ auth }) {
     const [activeSlide, setActiveSlide] = useState(0);
 
     const slides = [
-        "https://images.unsplash.com/photo-1542831371-d531d36971e6?auto=format&fit=crop&w=1200&q=80",
-        "https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=1200&q=80",
-        "https://images.unsplash.com/photo-1555529669-9334247a6b2f?auto=format&fit=crop&w=1200&q=80",
-    ];
+    "/imagen1.png",
+    "/imagen2.png",
+    "/imagen3.png",
+];
 
     // Carrusel automático cada 3 segundos
     useEffect(() => {
@@ -106,13 +106,6 @@ export default function Welcome({ auth }) {
                                     alt="Slide actual"
                                 />
 
-                                <button className="carousel-btn left" onClick={() => slide(-1)}>
-                                    ‹
-                                </button>
-
-                                <button className="carousel-btn right" onClick={() => slide(1)}>
-                                    ›
-                                </button>
                             </div>
                         </div>
                     </div>
