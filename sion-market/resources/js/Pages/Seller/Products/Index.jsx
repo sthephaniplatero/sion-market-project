@@ -16,7 +16,7 @@ export default function ProductIndex({ products }) {
 
             {/* Hero visual */}
             <div className="relative bg-gradient-to-r from-blue-900 to-blue-700 text-white rounded-xl p-10 mb-10 shadow-lg">
-                <h1 className="text-5xl font-bold mb-3">Bienvenido a tu Dashboard de Productos</h1>
+                <h1 className="text-5xl font-bold mb-3">Bienvenido a tu Administrador de Productos</h1>
                 <p className="text-lg mb-5">
                     Aquí puedes gestionar, editar y agregar nuevos productos de manera rápida y segura.
                 </p>
@@ -77,12 +77,6 @@ export default function ProductIndex({ products }) {
                                             Editar
                                         </Link>
 
-                                        <button
-                                            onClick={() => toggleStatus(product.id)}
-                                            className="text-yellow-600 hover:underline"
-                                        >
-                                            {product.status === "active" ? "Desactivar" : "Activar"}
-                                        </button>
 
                                         <button
                                             onClick={() => deleteProduct(product.id)}

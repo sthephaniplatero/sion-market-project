@@ -52,10 +52,11 @@ export default function EditProduct({ product }) {
                 </div>
 
                 <div>
-                    <label className="font-semibold">Precio ($)</label>
+                <label className="font-semibold">Precio ($)</label>
                     <input
                         type="number"
                         name="price"
+                        step="0.01"
                         className="w-full border p-2 rounded"
                         value={form.price}
                         onChange={handleChange}

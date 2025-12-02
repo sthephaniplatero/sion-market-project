@@ -25,7 +25,7 @@ export default function SellerLayout({ children }) {
                             href="/seller/products"
                             className="text-gray-700 hover:text-[#1A237E]"
                         >
-                            Productos
+                            Administracion de Productos
                         </Link>
 
                         {auth?.user && (

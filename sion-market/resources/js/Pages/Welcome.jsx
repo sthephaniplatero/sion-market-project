@@ -47,9 +47,7 @@ export default function Welcome({ auth }) {
                                 Tienda
                             </Link>
 
-                            <Link href="/categories" className="nav-link">
-                                Servicios
-                            </Link>
+                            
 
                             {auth?.user ? (
                                 <Link href={route("dashboard")} className="nav-link">
@@ -91,9 +89,7 @@ export default function Welcome({ auth }) {
                                     Visitar tienda
                                 </Link>
 
-                                <Link href="/servicios" className="btn-outline-gold">
-                                    Explorar servicios
-                                </Link>
+                                
                             </div>
                         </div>
 
