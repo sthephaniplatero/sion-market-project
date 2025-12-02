@@ -10,7 +10,18 @@ import {
 } from "@heroicons/react/24/outline";
 import { motion } from "framer-motion";
 
+// Función auxiliar: Capitaliza solo la primera letra de una cadena
+const capitalizeFirstLetter = (string) => {
+    if (!string) return '';
+    // Pone en mayúscula el primer carácter y mantiene el resto de la cadena
+    // En este caso, no forzamos el resto a minúsculas, solo aseguramos la mayúscula inicial.
+    return string.charAt(0).toUpperCase() + string.slice(1);
+};
+
 export default function SellerDashboard({ stats }) {
+    // Usamos directamente stats.lowStockProducts. Si no está definido, usamos un array vacío.
+    const lowStockItems = stats.lowStockProducts || [];
+
     return (
         <SellerLayout>
             <Head title="Dashboard del Vendedor" />
@@ -105,7 +116,7 @@ export default function SellerDashboard({ stats }) {
 
             {/* 🔷 GRID PRINCIPAL DE ESTADÍSTICAS */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                {/* CARD 1 */}
+                {/* CARD 1: Productos activos */}
                 <div className="bg-white/80 backdrop-blur-lg shadow-xl border border-gray-200 rounded-2xl p-6 hover:shadow-2xl transition">
                     <div className="flex items-center gap-4">
                         <CheckCircleIcon className="w-12 h-12 text-green-600" />
@@ -114,9 +125,12 @@ export default function SellerDashboard({ stats }) {
                             <h2 className="text-3xl font-bold">{stats.totalActive}</h2>
                         </div>
                     </div>
+                    <p className="text-gray-500 text-xs mt-3 border-t pt-2">
+                        Productos listos para la venta, con stock disponible y visibles para los compradores.
+                    </p>
                 </div>
 
-                {/* CARD 2 */}
+                {/* CARD 2: Productos inactivos */}
                 <div className="bg-white/80 backdrop-blur-lg shadow-xl border border-gray-200 rounded-2xl p-6 hover:shadow-2xl transition">
                     <div className="flex items-center gap-4">
                         <XCircleIcon className="w-12 h-12 text-red-600" />
@@ -125,17 +139,44 @@ export default function SellerDashboard({ stats }) {
                             <h2 className="text-3xl font-bold">{stats.totalInactive}</h2>
                         </div>
                     </div>
+                    <p className="text-gray-500 text-xs mt-3 border-t pt-2">
+                        Productos sin stock o que has pausado manualmente (requieren atención).
+                    </p>
                 </div>
 
-                {/* CARD 3 */}
+                {/* CARD 3: Bajo stock - USANDO DATOS REALES lowStockProducts */}
                 <div className="bg-white/80 backdrop-blur-lg shadow-xl border border-gray-200 rounded-2xl p-6 hover:shadow-2xl transition">
-                    <div className="flex items-center gap-4">
+                    <div className="flex items-center gap-4 mb-4 pb-4 border-b border-yellow-200">
                         <ExclamationTriangleIcon className="w-12 h-12 text-yellow-500" />
                         <div>
-                            <p className="text-gray-500 text-sm">Bajo stock</p>
+                            <p className="text-gray-500 text-sm">Total en bajo stock</p>
                             <h2 className="text-3xl font-bold">{stats.lowStock}</h2>
                         </div>
                     </div>
+                    
+                    {/* Lista de productos con bajo stock */}
+                    <p className="text-gray-600 text-sm font-semibold mb-2">Artículos a reponer:</p>
+                    
+                    <ul className="text-gray-700 text-sm space-y-2 max-h-32 overflow-y-auto pr-1">
+                        {lowStockItems.length > 0 ? (
+                            lowStockItems.map((product) => (
+                                <li
+                                    key={product.id}
+                                    className="flex justify-between items-center bg-yellow-50 hover:bg-yellow-100 transition py-2 px-3 rounded-lg"
+                                >
+                                    <span className="truncate">{capitalizeFirstLetter(product.name)}</span>
+                                    <span className="font-bold text-yellow-700 text-right min-w-10">{product.stock} u.</span>
+                                </li>
+                            ))
+                        ) : stats.lowStock > 0 ? (
+                             // MENSAJE DE DIAGNÓSTICO
+                            <li className="text-gray-500 italic text-center py-2 text-red-600 font-medium bg-red-50 rounded-lg">
+                                Error de datos: Contador ({stats.lowStock}) y lista vacía. Revisa el backend.
+                            </li>
+                        ) : (
+                            <li className="text-gray-500 italic text-center py-2">¡Todo en orden! No hay problemas de stock.</li>
+                        )}
+                    </ul>
                 </div>
 
                 {/* CARD 4 — LISTADO */}
@@ -153,9 +194,9 @@ export default function SellerDashboard({ stats }) {
                             stats.latestProducts.map((product) => (
                                 <li
                                     key={product.id}
-                                    className="bg-gray-100 hover:bg-gray-200 transition py-2 px-3 rounded-lg"
+                                    className="bg-gray-100 hover:bg-gray-200 transition py-2 px-3 rounded-lg truncate"
                                 >
-                                    {product.name}
+                                    {capitalizeFirstLetter(product.name)} {/* <-- APLICADO AQUÍ */}
                                 </li>
                             ))
                         ) : (
