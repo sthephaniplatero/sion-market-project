@@ -17,6 +17,7 @@ export default function SellerLayout({ children }) {
                         <Link
                             href="/seller/dashboard"
                             className="text-gray-700 hover:text-[#1A237E]"
+                            style={{ color: "#1A237E", borderColor: "#1A237E" }}
                         >
                             Dashboard
                         </Link>
@@ -24,8 +25,9 @@ export default function SellerLayout({ children }) {
                         <Link
                             href="/seller/products"
                             className="text-gray-700 hover:text-[#1A237E]"
+                            style={{ color: "#1A237E", borderColor: "#1A237E" }}
                         >
-                            Administracion de Productos
+                            Agregar Productos
                         </Link>
 
                         {auth?.user && (

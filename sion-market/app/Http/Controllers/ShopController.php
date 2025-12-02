@@ -3,12 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Models\Product;
-use Illuminate\Http\Request; // ¡Asegúrate de agregar esto!
+use Illuminate\Http\Request; 
 
 class ShopController extends Controller
 {
     // Mostrar todos los productos activos (visible para compradores)
-    public function index(Request $request) // <-- Agregar $request aquí
+    public function index(Request $request) 
     {
         // 1. Obtener los parámetros de la URL enviados por Inertia
         $sort = $request->input('sort');

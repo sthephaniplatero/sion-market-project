@@ -28,7 +28,7 @@ class SellerController extends Controller
             'lowStock' => $lowStockProducts->count(),
             
             // 3. LISTA: Incluimos la colección en las estadísticas
-            'lowStockProducts' => $lowStockProducts, // ¡ESTO FALTABA!
+            'lowStockProducts' => $lowStockProducts, 
             
             'latestProducts' => Product::where('seller_id', $sellerId)->latest()->take(5)->get(),
         ];

@@ -196,7 +196,7 @@ export default function SellerDashboard({ stats }) {
                                     key={product.id}
                                     className="bg-gray-100 hover:bg-gray-200 transition py-2 px-3 rounded-lg truncate"
                                 >
-                                    {capitalizeFirstLetter(product.name)} {/* <-- APLICADO AQUÍ */}
+                                    {capitalizeFirstLetter(product.name)} 
                                 </li>
                             ))
                         ) : (
