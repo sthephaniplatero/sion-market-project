@@ -34,12 +34,13 @@ Route::get('/', function () {
 
 /*
 |--------------------------------------------------------------------------
-| Tienda pública
+| Tienda 
 |--------------------------------------------------------------------------
 */
 
-Route::get('/shop', [ShopController::class, 'index'])->name('shop.index');
 Route::get('/shop/{id}', [ShopController::class, 'show'])->name('shop.show');
+Route::get('/shop', [ShopController::class, 'index'])->name('shop.index');
+
 
 
 /*
@@ -66,7 +67,7 @@ Route::get('/dashboard', function () {
 
 /*
 |--------------------------------------------------------------------------
-| Admin (solo dashboard, sin CRUD)
+| Admin 
 |--------------------------------------------------------------------------
 */
 
