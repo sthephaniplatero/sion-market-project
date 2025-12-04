@@ -1,10 +1,16 @@
 import { Head, Link } from "@inertiajs/react";
 import ShopLayout from "@/Layouts/ShopLayout";
 
+const capitalizeFirstLetter = (string) => {
+    if (!string) return '';
+    // Pone en mayúscula el primer carácter y mantiene el resto de la cadena
+    return string.charAt(0).toUpperCase() + string.slice(1);
+};
+
 export default function ShopShow({ product, auth }) {
     return (
         <ShopLayout auth={auth}>
-            <Head title={product.name} />
+            <Head title={capitalizeFirstLetter(product.name)} />
 
             <div className="max-w-4xl mx-auto px-6 py-20">
                 <Link
@@ -17,19 +23,17 @@ export default function ShopShow({ product, auth }) {
                 <div className="bg-white shadow rounded-xl p-6 flex flex-col md:flex-row gap-8">
                     {/* Imagen */}
                     <img
-                        src={
-                            product.image
-                                ? `/storage/${product.image}`
-                                : "/placeholder.jpg"
-                        }
+                        src={product.image}
                         alt={product.name}
-                        className="w-full md:w-1/2 h-96 object-cover rounded-lg"
+                        className="w-full h-full object-cover transition-transform duration-500 ease-in-out hover:scale-150"
+
+
                     />
 
                     {/* Información */}
-                    <div className="flex-1 flex flex-col">
+                    <div className="flex-1 flex flex-col items-center justify-center text-center">
                         <h1 className="text-3xl font-bold text-[#1A237E]">
-                            {product.name}
+                            {capitalizeFirstLetter(product.name)}
                         </h1>
 
                         <p className="text-gray-600 text-xl mt-2">
@@ -37,9 +41,14 @@ export default function ShopShow({ product, auth }) {
                         </p>
 
                         {product.description && (
-                            <p className="mt-4 text-gray-700">
-                                {product.description}
-                            </p>
+                            <>
+                                <h2 className="font-semibold text-gray-800 mt-4">
+                                    Descripción:
+                                </h2>
+                                <p className="mt-2 text-gray-700">
+                                    {product.description}
+                                </p>
+                            </>
                         )}
 
                         {/* Información del vendedor */}

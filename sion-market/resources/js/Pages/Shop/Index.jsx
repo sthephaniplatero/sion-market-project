@@ -110,7 +110,7 @@ return (
 
                             {/* Nombre */}
                             <h2 className="text-xl font-semibold mt-4 line-clamp-1">
-                                {capitalizeFirstLetter(product.name)} {/* <-- MODIFICADO AQUÍ */}
+                                {capitalizeFirstLetter(product.name)} 
                             </h2>
 
                             {/* Seller */}
