@@ -91,13 +91,13 @@ export default function SellerDashboard({ stats }) {
                     {/* Beneficio 3 */}
                     <motion.div
                         whileHover={{ scale: 1.05 }}
-                        className="bg-gradient-to-tr from-blue-200 to-purple-200 rounded-3xl shadow-xl p-8 text-center transition"
+                        className="bg-gradient-to-tr from-blue-800 to-blue-800 rounded-3xl shadow-xl p-8 text-center transition"
                     >
                         <div className="flex justify-center mb-4">
-                            <EyeIcon className="h-16 w-16 text-purple-600" />
+                            <EyeIcon className="h-16 w-16 text-white" />
                         </div>
-                        <h3 className="text-xl font-semibold text-purple-800 mb-2">Mayor visibilidad</h3>
-                        <p className="text-purple-700/90">
+                        <h3 className="text-xl font-semibold text-white mb-2">Mayor visibilidad</h3>
+                        <p className="text-white/90">
                             Tus productos llegan a una audiencia más amplia, aumentando tus posibilidades de venta.
                         </p>
                     </motion.div>

@@ -173,6 +173,65 @@
     transition: opacity 0.8s ease-in-out;
 }
 
+/* BOTÓN HAMBURGUESA */
+.hamburger {
+    display: none;
+    flex-direction: column;
+    gap: 6px;
+    cursor: pointer;
+}
+
+.hamburger .line {
+    width: 28px;
+    height: 3px;
+    background: white;
+    transition: 0.3s;
+}
+
+/* Animación X */
+.hamburger .line.open:nth-child(1) {
+    transform: rotate(45deg) translateY(8px);
+}
+
+.hamburger .line.open:nth-child(2) {
+    opacity: 0;
+}
+
+.hamburger .line.open:nth-child(3) {
+    transform: rotate(-45deg) translateY(-8px);
+}
+
+/* MENÚ MÓVIL */
+.mobile-menu {
+    display: flex;
+    flex-direction: column;
+    background: white;
+    padding: 16px 20px;
+    gap: 14px;
+    border-top: 1px solid #ddd;
+}
+
+.mobile-link {
+    font-size: 18px;
+    color: #1A237E;
+    font-weight: 500;
+}
+
+/* SOLO ESCRITORIO */
+.desktop-only {
+    display: flex;
+}
+
+/* SOLO MÓVIL */
+@media (max-width: 768px) {
+    .desktop-only {
+        display: none;
+    }
+
+    .hamburger {
+        display: flex;
+    }
+}
 
 /* ============================================================
    🔥 RESPONSIVE DESIGN PARA TODAS LAS PANTALLAS
@@ -248,7 +307,11 @@
         height: 260px;
     }
 
-    .btn-blue,
+    .btn-white {
+        width: 100%;
+        text-align: center;
+        padding: 14px;
+    }
     .btn-outline-gold {
         width: 100%;
         text-align: center;

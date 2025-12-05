@@ -26,7 +26,7 @@ return (
 
         {/* HERO ADMIN */}
         <div className="relative mb-12">
-            <div className="bg-gradient-to-r from-blue-600 to-blue-400 rounded-3xl p-10 shadow-2xl relative overflow-hidden">
+            <div className="bg-gradient-to-r from-blue-800 to-blue-800 rounded-3xl p-10 shadow-2xl relative overflow-hidden">
                 <motion.h1
                     className="text-4xl md:text-5xl font-extrabold text-white drop-shadow-lg"
                     initial={{ x: -100, opacity: 0 }}

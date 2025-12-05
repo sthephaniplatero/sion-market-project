@@ -4,19 +4,15 @@ import "../../css/welcome.css";
 
 export default function Welcome({ auth }) {
     const [activeSlide, setActiveSlide] = useState(0);
+    const [menuOpen, setMenuOpen] = useState(false); 
 
-    const slides = [
-        "/imagen1.png",
-        "/imagen2.png",
-        "/imagen3.png",
-    ];
+    const slides = ["/imagen1.png", "/imagen2.png", "/imagen3.png"];
 
-    // Carrusel automático cada 3 segundos
+    // Carrusel automático
     useEffect(() => {
         const interval = setInterval(() => {
             setActiveSlide((prev) => (prev + 1) % slides.length);
         }, 3000);
-
         return () => clearInterval(interval);
     }, []);
 
@@ -34,6 +30,7 @@ export default function Welcome({ auth }) {
                 <nav className="navbar">
                     <div className="navbar-content">
 
+                        {/* Logo */}
                         <Link href="/">
                             <img
                                 src="/sion_marketplace_logo.png"
@@ -42,7 +39,18 @@ export default function Welcome({ auth }) {
                             />
                         </Link>
 
-                        <div className="nav-links">
+                        {/* BOTÓN HAMBURGUESA (solo móvil) */}
+                        <button
+                            className="hamburger"
+                            onClick={() => setMenuOpen(!menuOpen)}
+                        >
+                            <div className={`line ${menuOpen ? "open" : ""}`}></div>
+                            <div className={`line ${menuOpen ? "open" : ""}`}></div>
+                            <div className={`line ${menuOpen ? "open" : ""}`}></div>
+                        </button>
+
+                        {/* LINKS NORMALES (escritorio) */}
+                        <div className="nav-links desktop-only">
                             <Link href={route("shop.index")} className="nav-link">
                                 Tienda
                             </Link>
@@ -56,15 +64,53 @@ export default function Welcome({ auth }) {
                                     <Link href={route("login")} className="btn-outline">
                                         Iniciar sesión
                                     </Link>
-
                                     <Link href={route("register")} className="btn-gold">
                                         Registrarse
                                     </Link>
                                 </>
                             )}
                         </div>
-
                     </div>
+
+                    {/* MENÚ MÓVIL DROPDOWN */}
+                    {menuOpen && (
+                        <div className="mobile-menu">
+                            <Link
+                                href={route("shop.index")}
+                                className="mobile-link"
+                                onClick={() => setMenuOpen(false)}
+                            >
+                                Tienda
+                            </Link>
+
+                            {auth?.user ? (
+                                <Link
+                                    href={route("dashboard")}
+                                    className="mobile-link"
+                                    onClick={() => setMenuOpen(false)}
+                                >
+                                    Dashboard
+                                </Link>
+                            ) : (
+                                <>
+                                    <Link
+                                        href={route("login")}
+                                        className="mobile-link"
+                                        onClick={() => setMenuOpen(false)}
+                                    >
+                                        Iniciar sesión
+                                    </Link>
+                                    <Link
+                                        href={route("register")}
+                                        className="mobile-link"
+                                        onClick={() => setMenuOpen(false)}
+                                    >
+                                        Registrarse
+                                    </Link>
+                                </>
+                            )}
+                        </div>
+                    )}
                 </nav>
 
                 {/* HERO */}

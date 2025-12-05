@@ -10,8 +10,12 @@ export default function AdminLayout({ children, notifications }) {
             {/* NAVBAR */}
             <nav className="w-full bg-white shadow-sm fixed top-0 z-50">
                 <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
-                    <Link href="/" className="text-2xl font-bold" style={{ color: "#1A237E" }}>
-                        Sion Marketplace
+                    <Link href="/" className="flex items-center gap-2">
+                        <img
+                            src="/sion_marketplace_logo.png"
+                            alt="Sion Marketplace Logo"
+                            className="w-36 h-auto object-contain"
+                        />
                     </Link>
 
                     <div className="flex items-center space-x-6">
@@ -58,17 +62,6 @@ export default function AdminLayout({ children, notifications }) {
                         © {new Date().getFullYear()} Sion Marketplace — Todos los derechos reservados.
                     </p>
 
-                    <div className="flex space-x-6 mt-4 md:mt-0">
-                        <Link href="/admin/dashboard" className="text-gray-600 hover:text-[#1A237E] text-sm">
-                            Dashboard
-                        </Link>
-                        <Link href="/" className="text-gray-600 hover:text-[#1A237E] text-sm">
-                            Inicio
-                        </Link>
-                        <Link href="/contacto" className="text-gray-600 hover:text-[#1A237E] text-sm">
-                            Contacto
-                        </Link>
-                    </div>
                 </div>
             </footer>
         </>
